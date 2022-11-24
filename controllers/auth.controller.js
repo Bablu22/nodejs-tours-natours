@@ -207,7 +207,38 @@ exports.updateMe = async (req, res, next) => {
         });
     } catch (error) {
         next(error);
-        console.log(error);
+    }
+};
+
+
+exports.updateUser = async (req, res, next) => {
+    try {
+
+
+        const filterObj = (obj, ...allowedFields) => {
+            const newObj = {};
+            Object.keys(obj).forEach((el) => {
+                if (allowedFields.includes(el)) newObj[el] = obj[el];
+            });
+            return newObj;
+        };
+
+        // 2) Filtered out unwanted fields names that are not allowed to be updated
+        const filteredBody = filterObj(req.body, "role", "active");
+
+
+        // 3) Update user document
+        const user = await User.findByIdAndUpdate(req.body.id, filteredBody, {
+            new: true,
+            runValidators: false,
+        });
+
+        res.status(200).json({
+            status: "success",
+            user,
+        });
+    } catch (error) {
+        next(error);
     }
 };
 
@@ -226,7 +257,7 @@ exports.deleteMe = async (req, res, next) => {
 
 exports.getAllUser = async (req, res, next) => {
     try {
-        const users = await User.find();
+        const users = await User.find({ active: true });
         res.status(200).json({
             status: "success",
             users,
@@ -236,9 +267,9 @@ exports.getAllUser = async (req, res, next) => {
     }
 };
 
-exports.getAllUser = async (req, res, next) => {
+exports.getinActiveUser = async (req, res, next) => {
     try {
-        const users = await User.find();
+        const users = await User.find({ active: false });
         res.status(200).json({
             status: "success",
             users,
@@ -247,6 +278,7 @@ exports.getAllUser = async (req, res, next) => {
         next(error);
     }
 };
+
 
 exports.getMeMiddleWare = (req, res, next) => {
     req.params.id = req.user.id;

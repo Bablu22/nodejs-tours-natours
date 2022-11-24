@@ -21,17 +21,12 @@ router.route("/top-5-cheap").get(topTourAlice, getTours);
 
 router
   .route("/")
-  .post(createTour)
+  .post(isAuthenticated, protectTo("admin"), createTour)
   .get(getTours);
 
 router.route("/:id").get(getTour).patch(updateTour).delete(deleteTour);
 
-
-router
-  .route("/:tourId/reviews")
-  .post(isAuthenticated, protectTo("user"), createReview)
-router
-  .route("/:tourId/reviews")
-  .get(isAuthenticated, protectTo("user"), getReview)
+router.route("/:tourId/reviews").post(isAuthenticated, createReview);
+router.route("/:tourId/reviews").get(isAuthenticated, getReview);
 
 module.exports = router;

@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 
 // Database connection
 mongoose
-    .connect(process.env.MONGO_LOCAL, { useNewUrlParser: true })
+    .connect(process.env.MONGO_CLOUD, { useNewUrlParser: true })
     .then(() => console.log("DB connection successful!"));
 
 app.listen(PORT, () => {
