@@ -13,7 +13,8 @@ const {
     getMeMiddleWare,
     updateUser,
     protectTo,
-    getinActiveUser
+    getinActiveUser,
+    makeAdmin
 } = require("../controllers/auth.controller");
 
 router.route('/users').get(isAuthenticated, getAllUser)
@@ -27,6 +28,7 @@ router.route("/updateme").patch(isAuthenticated, updateMe);
 router.route("/deleteme").delete(isAuthenticated, deleteMe);
 
 router.route("/update-user").patch(isAuthenticated, protectTo("admin"), updateUser)
+router.route("/make-admin").patch(isAuthenticated, protectTo("admin"), makeAdmin)
 
 // router.route("/forgot-password").post(forgotPassword)
 // router.route("/reset-password/:token").post(resetPassword)

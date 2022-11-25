@@ -165,7 +165,6 @@ exports.updatePassword = async (req, res, next) => {
             token,
             user,
         });
-
     } catch (error) {
         next(error);
     }
@@ -194,7 +193,6 @@ exports.updateMe = async (req, res, next) => {
         // 2) Filtered out unwanted fields names that are not allowed to be updated
         const filteredBody = filterObj(req.body, "name", "email", "photo");
 
-
         // 3) Update user document
         const user = await User.findByIdAndUpdate(req.user.id, filteredBody, {
             new: true,
@@ -210,11 +208,8 @@ exports.updateMe = async (req, res, next) => {
     }
 };
 
-
 exports.updateUser = async (req, res, next) => {
     try {
-
-
         const filterObj = (obj, ...allowedFields) => {
             const newObj = {};
             Object.keys(obj).forEach((el) => {
@@ -225,7 +220,6 @@ exports.updateUser = async (req, res, next) => {
 
         // 2) Filtered out unwanted fields names that are not allowed to be updated
         const filteredBody = filterObj(req.body, "role", "active");
-
 
         // 3) Update user document
         const user = await User.findByIdAndUpdate(req.body.id, filteredBody, {
@@ -279,16 +273,14 @@ exports.getinActiveUser = async (req, res, next) => {
     }
 };
 
-
 exports.getMeMiddleWare = (req, res, next) => {
     req.params.id = req.user.id;
     next();
 };
 
-
 exports.getMe = async (req, res, next) => {
     try {
-        const { id } = req.params
+        const { id } = req.params;
         const user = await User.findById(id);
         res.status(200).json({
             status: "success",
@@ -299,7 +291,21 @@ exports.getMe = async (req, res, next) => {
     }
 };
 
-
+exports.makeAdmin = async (req, res, next) => {
+    try {
+        const { email, role } = req.body;
+        const user = await User.findOneAndUpdate(
+            { email },
+            { $set: { role: role } }
+        );
+        res.status(200).json({
+            status: "success",
+            user,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
 
 /* 
 
