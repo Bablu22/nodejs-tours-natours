@@ -28,11 +28,11 @@ app.use(express.urlencoded({ extended: true }));
 // app.use("/api", limit)
 
 
-app.post(
-    '/webhook-checkout',
-    bodyParser.raw({ type: 'application/json' }),
-    webhookCheckout
-);
+// app.post(
+//     '/webhook-checkout',
+//     bodyParser.raw({ type: 'application/json' }),
+//     webhookCheckout
+// );
 
 
 // Routes 
