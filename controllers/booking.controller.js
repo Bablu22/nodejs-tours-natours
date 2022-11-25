@@ -1,58 +1,58 @@
 const stripe = require("stripe")(
-    "sk_test_51M5NOUEs42PZB7Gk6uxYu7O01vwFxXPrbM5DxRbP4lxNLeflH8s5RWtxQSK7o39xxbvy2BVrFjcbz6n2kDAWlchn00p4lXQ21w"
+  "sk_test_51M5NOUEs42PZB7Gk6uxYu7O01vwFxXPrbM5DxRbP4lxNLeflH8s5RWtxQSK7o39xxbvy2BVrFjcbz6n2kDAWlchn00p4lXQ21w"
 );
 const Booking = require("../models/BookingModel");
 
 exports.createBooking = async (req, res, next) => {
-    try {
-        const booking = await Booking.create(req.body);
-        res.status(200).json({
-            status: "success",
-            booking,
-        });
-    } catch (error) {
-        next(error);
-    }
+  try {
+    const booking = await Booking.create(req.body);
+    res.status(200).json({
+      status: "success",
+      booking,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 exports.getAllBooking = async (req, res, next) => {
-    try {
-        const bookings = await Booking.find();
-        res.status(200).json({
-            status: "success",
-            bookings,
-        });
-    } catch (error) {
-        next(error);
-    }
+  try {
+    const bookings = await Booking.find();
+    res.status(200).json({
+      status: "success",
+      bookings,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 exports.getUsersBooking = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const bookings = await Booking.find({ user: { _id: id } });
-        res.status(200).json({
-            status: "success",
-            bookings,
-        });
-    } catch (error) {
-        next(error);
-    }
+  try {
+    const { id } = req.params;
+    const bookings = await Booking.find({ user: { _id: id } });
+    res.status(200).json({
+      status: "success",
+      bookings,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 exports.deleteBooking = async (req, res, next) => {
-    try {
-        const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-        await Booking.findByIdAndDelete(id);
-        res.status(200).json({
-            status: "success",
-        });
-    } catch (error) {
-        next(error);
-    }
+    const booking = await Booking.findByIdAndDelete(id);
+    res.status(200).json({
+      status: "success",
+      booking,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
-
 
 // exports.getCheckoutSession = async (req, res, next) => {
 //     try {
