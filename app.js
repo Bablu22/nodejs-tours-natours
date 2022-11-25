@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 const moragan = require("morgan")
 const rateLimit = require("express-rate-limit")
+const bodyParser = require("body-parser")
 
 //Import routes
 const globalErrorHandler = require("./controllers/error.controller")
@@ -10,7 +11,8 @@ const tourRoute = require("./routes/tours.routes");
 const AppError = require('./utils/appError');
 const authRoute = require("./routes/auth.routes")
 const reviewRoute = require("./routes/review.routes")
-const bookingRoute = require("./routes/booking.routes")
+const bookingRoute = require("./routes/booking.routes");
+const { webhookCheckout } = require('./controllers/booking.controller');
 
 
 app.use(express.json());
@@ -24,6 +26,13 @@ app.use(express.urlencoded({ extended: true }));
 //     message: "Too many request from this api"
 // })
 // app.use("/api", limit)
+
+
+app.post(
+    '/webhook-checkout',
+    bodyParser.raw({ type: 'application/json' }),
+    webhookCheckout
+);
 
 
 // Routes 
