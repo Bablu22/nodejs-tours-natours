@@ -3,6 +3,7 @@ const {
     createBooking,
     getAllBooking,
     getUsersBooking,
+    deleteBooking,
 } = require("../controllers/booking.controller");
 
 const router = require("express").Router();
@@ -13,5 +14,6 @@ router
     .get(isAuthenticated, getAllBooking);
 
 router.route("/:id").get(isAuthenticated, getUsersBooking);
+router.route("/:id").delete(isAuthenticated, deleteBooking);
 
 module.exports = router;

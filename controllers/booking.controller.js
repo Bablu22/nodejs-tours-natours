@@ -30,11 +30,23 @@ exports.getAllBooking = async (req, res, next) => {
 exports.getUsersBooking = async (req, res, next) => {
     try {
         const { id } = req.params;
-        console.log(id);
         const bookings = await Booking.find({ user: { _id: id } });
         res.status(200).json({
             status: "success",
             bookings,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.deleteBooking = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        await Booking.findByIdAndDelete(id);
+        res.status(200).json({
+            status: "success",
         });
     } catch (error) {
         next(error);
