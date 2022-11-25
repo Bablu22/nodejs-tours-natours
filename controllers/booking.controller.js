@@ -30,7 +30,8 @@ exports.getAllBooking = async (req, res, next) => {
 exports.getUsersBooking = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const bookings = await Booking.find({ _id: id });
+        console.log(id);
+        const bookings = await Booking.find({ user: { _id: id } });
         res.status(200).json({
             status: "success",
             bookings,
@@ -39,8 +40,6 @@ exports.getUsersBooking = async (req, res, next) => {
         next(error);
     }
 };
-
-
 
 
 // exports.getCheckoutSession = async (req, res, next) => {
